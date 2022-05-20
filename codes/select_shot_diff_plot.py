@@ -8,12 +8,12 @@ from marccd import MarCCD
 from codes.mccd2dat import load_n_azi_intg
 
 folder_name = "KI_Methanol"
-run_num = 24
+run_num = 41
 
 # shot number is 0 based !
 shot_num_start = 0
 # shot_num_end = 24
-shot_num_end = 8
+shot_num_end = 10
 
 norm_start_q = 6
 norm_end_q = 8
@@ -79,7 +79,7 @@ each_delay_shot_idx_list = []
 on_waxs_intg_list = []
 off_waxs_intg_list = []
 diff_waxs_intg_list = []
-
+num_outlier = 0
 for idx_delay in range(len(delay_list)):
     diff_int_list.append([])
     norm_diff_int_list.append([])
@@ -113,6 +113,7 @@ for shot_num in shot_num_list:
         plt.plot(common_q, now_off_int, label="off")
         plt.legend()
         plt.show()
+        num_outlier += 1
         continue
     norm_on_int = now_on_int / norm_on_val
     norm_off_int = now_off_int / norm_off_val
@@ -172,3 +173,4 @@ for idx_delay, each_avg in enumerate(each_delay_diff):
     plt.plot(common_q, each_avg, label=f"{idx_delay}-th_{delay_list[idx_delay]}ns")
 plt.legend()
 plt.show()
+print("number of outlier : {}".format(num_outlier))

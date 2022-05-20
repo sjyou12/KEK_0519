@@ -8,7 +8,7 @@ from marccd import MarCCD
 
 folder_name = "KI_Methanol"
 file_common_path = "../data/"
-run_num = 24
+run_num = 41
 common_save_path = "../results/shot_azi_intg/"
 do_overwrite_file = False
 
