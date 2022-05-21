@@ -7,25 +7,25 @@ import matplotlib.pyplot as plt
 from marccd import MarCCD
 from codes.mccd2dat import load_n_azi_intg
 
-folder_name = "KI_Methanol"
-run_num = 41
+folder_name = "I2_Benzene"
+run_num = 63
 show_hist = True
 
 # shot number is 0 based !
 shot_num_start = 0
 # shot_num_end = 24
-shot_num_end = 23
+shot_num_end = 73
 
 
-diff_intg_cut = 0.01
-
+# diff_intg_cut = 0.01
+diff_intg_cut = 0.05
 # raw_waxs_intg_cut = 2.4e6
 norm_start_q = 4
 norm_end_q = 8
 
-raw_waxs_intg_cut = 1.2e6
-norm_start_q = 6
-norm_end_q = 8
+raw_waxs_intg_cut = 2.e6
+# norm_start_q = 6
+# norm_end_q = 8
 diff_cut_start_q = 8
 diff_cut_end_q = 10
 
@@ -119,7 +119,9 @@ now_axs = outlier_axis[idx_row][idx_col]
 
 for shot_num in shot_num_list:
     on_file_path = f"{now_run_azi_int_dir}{now_run_name}_shot{shot_num:03d}_on.dat"
-    off_file_path = f"{now_run_azi_int_dir}{now_run_name}_shot{shot_num:03d}_off.dat"
+    off_file_path = f"{now_run_azi_int_dir}{now_run_name}_shot{(shot_num+1):03d}_on.dat"
+    # on_file_path = f"{now_run_azi_int_dir}{now_run_name}_shot{shot_num:03d}_on.dat"
+    # off_file_path = f"{now_run_azi_int_dir}{now_run_name}_shot{(shot_num+1):03d}_off.dat"
     on_rawdata = np.loadtxt(on_file_path)
     off_rawdata = np.loadtxt(off_file_path)
     if len(common_q) == 0:
@@ -182,10 +184,9 @@ diff_hist_fig, diff_axs = plt.subplots(nrows=2, ncols=num_col_in_one_fig, figsiz
 on_hist_fig, on_axs = plt.subplots(nrows=2, ncols=num_col_in_one_fig, figsize=(16,10))
 off_hist_fig, off_axs = plt.subplots(nrows=2, ncols=num_col_in_one_fig, figsize=(16,10))
 num_bin = 50
-
-for idx_delay, delay_diff_list in enumerate(norm_diff_int_list):
-    now_col_idx = idx_delay % num_col_in_one_fig
-    if show_hist:
+if show_hist:
+    for idx_delay, delay_diff_list in enumerate(norm_diff_int_list):
+        now_col_idx = idx_delay % num_col_in_one_fig
         now_delay_text = f" {idx_delay}-th delay ({delay_list[idx_delay]}ns)"
         diff_axs[0][now_col_idx].set_title("diff hist before cut" + now_delay_text)
         diff_axs[0][now_col_idx].hist(diff_waxs_intg_list_before_cut[idx_delay], bins=num_bin)
@@ -229,6 +230,7 @@ for idx_delay, delay_diff_list in enumerate(norm_diff_int_list):
     idx_col = 0
     idx_row = 0
     now_axs = diff_indiv_axs[idx_row][idx_col]
+    idx_data = 0
     for idx_data, each_shot_diff in enumerate(delay_diff_list):
         now_axs.plot(common_q, each_shot_diff, label=f"shot{each_delay_shot_idx_list[idx_delay][idx_data]}_norm_diff")
         if (idx_data % num_plot_in_one_fig) == (num_plot_in_one_fig - 1):
