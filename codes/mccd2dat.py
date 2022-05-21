@@ -6,9 +6,11 @@ import os
 import matplotlib.pyplot as plt
 from marccd import MarCCD
 
-folder_name = "KI_Methanol"
+folder_name = "I2_Benzene"
+run_num = 85
+# folder_name = "KI_Methanol"
+# run_num = 43
 file_common_path = "../data/"
-run_num = 41
 common_save_path = "../results/shot_azi_intg/"
 do_overwrite_file = False
 
@@ -16,7 +18,7 @@ do_overwrite_file = False
 def load_n_azi_intg(file_common_path, common_save_path, folder_name, run_num, do_overwrite_file=False):
     poni_file = "../calibrate/si22.poni"
     # mask_file_name = "../calibrate/si22_mask.npy"
-    mask_file_name = "../calibrate/run_14_mask_20220519.npy"
+    mask_file_name = "../calibrate/run_45_mask_20220520.npy"
     dark_file_name = "../results/dark_run15.npy"
     # dark_file_name = "../results/background_run19.npy"
 
@@ -87,15 +89,15 @@ def load_n_azi_intg(file_common_path, common_save_path, folder_name, run_num, do
             plt.title(f"raw img 1D curve shot{shot_idx}")
             plt.show()
 
-        if do_overwrite_file or (not os.path.isfile(save_neg_file)):
-            now_neg_img_name = f"{now_run_dir}{neg_file_name_list[shot_idx]}"
-            off_img = np.array(MarCCD(now_neg_img_name).image) - dark_img
-            now_q, now_off_int = ai.integrate1d(data=off_img, npt=1024, mask=mask, unit="q_A^-1",
-                                                polarization_factor=0.99, filename=save_neg_file)
-            # if shot_idx > 20:
-            plt.plot(now_q, now_off_int)
-            plt.title(f"raw img 1D curve shot{shot_idx}")
-            plt.show()
+        # if do_overwrite_file or (not os.path.isfile(save_neg_file)):
+        #     now_neg_img_name = f"{now_run_dir}{neg_file_name_list[shot_idx]}"
+        #     off_img = np.array(MarCCD(now_neg_img_name).image) - dark_img
+        #     now_q, now_off_int = ai.integrate1d(data=off_img, npt=1024, mask=mask, unit="q_A^-1",
+        #                                         polarization_factor=0.99, filename=save_neg_file)
+        #     # if shot_idx > 20:
+        #     plt.plot(now_q, now_off_int)
+        #     plt.title(f"raw img 1D curve shot{shot_idx}")
+        #     plt.show()
         # plt.plot(now_q, now_on_int, label="on int")        # loaded intensity check
         # plt.plot(now_q, now_off_int, label="off int")
         # plt.legend()

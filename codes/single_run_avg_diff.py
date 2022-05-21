@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from marccd import MarCCD
 from codes.mccd2dat import load_n_azi_intg
 
-folder_name = "KI_Methanol"
-run_num = 41
+folder_name = "I2_Benzene"
+run_num = 64
 norm_start_q = 6
 norm_end_q = 8
 
